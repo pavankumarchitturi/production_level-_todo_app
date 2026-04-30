@@ -2,10 +2,15 @@ import { useState } from "react";
 
 const TodoItem = ({ task, deleteTask, toggleTask, editTask }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [newText, setNewText] = useState(task.text);
+  const [newText, setNewText] = useState("");
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setNewText(task.text);
+  };
 
   const handleSave = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (!newText.trim()) return;
 
     editTask(task.id, newText);
@@ -13,7 +18,7 @@ const TodoItem = ({ task, deleteTask, toggleTask, editTask }) => {
   };
 
   return (
-   <>
+    <>
       <input
         type="checkbox"
         checked={task.completed}
@@ -23,7 +28,6 @@ const TodoItem = ({ task, deleteTask, toggleTask, editTask }) => {
       {isEditing ? (
         <form onSubmit={handleSave}>
           <input
-            type="text"
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
           />
@@ -33,18 +37,18 @@ const TodoItem = ({ task, deleteTask, toggleTask, editTask }) => {
         <span
           style={{
             textDecoration: task.completed ? "line-through" : "none",
-            marginLeft: "10px",
           }}
         >
           {task.text}
         </span>
       )}
 
-      <button onClick={() => setIsEditing(true)} disabled = {task.completed}>Edit</button>
+      <button onClick={handleEdit} disabled={task.completed}>
+        Edit
+      </button>
       <button onClick={() => deleteTask(task.id)}>Delete</button>
     </>
   );
 };
 
 export default TodoItem;
-

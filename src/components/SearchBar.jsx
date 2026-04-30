@@ -1,11 +1,15 @@
-const SearchBar = ({setSearch}) => {
+const SearchBar = ({ search, setSearch }) => {
     return (
-        <input
-            type="text"
-            placeholder="search text.."
-            onChange={(e) => setSearch(e.target.value)}
-            />
-    );
+      <>
+    <input
+      type="text"
+      placeholder="Search tasks..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+    <button onClick={() => setSearch("")}>Clear</button>
+    </>
+);
 };
 
-export default SearchBar
+export default SearchBar;

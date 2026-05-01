@@ -1,11 +1,5 @@
-export const getFilteredTasks = (tasks, filter, search) => {
-  return tasks
-    .filter((t) => {
-      if (filter === "COMPLETED") return t.completed;
-      if (filter === "PENDING") return !t.completed;
-      return true;
-    })
-    .filter((t) =>
-      t.text.toLowerCase().includes(search.toLowerCase())
-    );
+export const getFilteredTasks = (tasks, filter) => {
+  if (filter === "Active") return tasks.filter(t => !t.completed);
+  if (filter === "Completed") return tasks.filter(t => t.completed);
+  return tasks;
 };

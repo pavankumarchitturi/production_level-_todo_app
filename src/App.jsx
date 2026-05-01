@@ -6,30 +6,32 @@ import Header from "./components/Header";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import FilterBar from "./components/FilterBar";
-import SearchBar from "./components/SearchBar";
 import Footer from "./components/Footer";
 
 const App = () => {
-  const { tasks, addTask, deleteTask, toggleTask, editTask} = useTasks();
+  const { tasks, addTask, deleteTask, toggleTask, editTask, clearCompleted } = useTasks();
 
   const [filter, setFilter] = useState("ALL");
-  const [search, setSearch] = useState("");
 
   const filteredTasks = useMemo(
-    () => getFilteredTasks(tasks, filter, search),
-    [tasks, filter, search]
+    () => getFilteredTasks(tasks, filter),
+    [tasks, filter]
   );
 
+  const hasCompleted = tasks.some(t => t.completed);
 
   return (
     <div className="app">
       <Header />
+
       <TodoInput addTask={addTask} />
 
-      <div className="search-filter">
-        <SearchBar search={search} setSearch={setSearch} />
-        <FilterBar setFilter={setFilter} />
-      </div>
+      <FilterBar
+        filter={filter}
+        setFilter={setFilter}
+        clearCompleted={clearCompleted}
+        hasCompleted={hasCompleted}
+      />
 
       <TodoList
         tasks={filteredTasks}

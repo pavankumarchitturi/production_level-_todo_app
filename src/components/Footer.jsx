@@ -1,14 +1,14 @@
 const Footer = ({ tasks }) => {
   const total = tasks.length;
-  const completed = tasks.filter((t) => t.completed).length;
-  const pending = total - completed;
+  const completed = tasks.filter(t => t.completed).length;
+  const active = total - completed;
 
   return (
-    <footer className="stats">
-      <em>
-        Total: {total} | Completed: {completed} | Pending: {pending}
-      </em>
-    </footer>
+    <div className="stats">
+      <div className="stats">
+      📊 Total: {total} | ✅ Active: {active} | ✔ Completed: {completed}
+    </div>
+    </div>
   );
 };
 

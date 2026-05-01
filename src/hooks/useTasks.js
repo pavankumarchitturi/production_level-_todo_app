@@ -3,23 +3,24 @@ import { useEffect, useState } from "react";
 export const useTasks = () => {
   const [tasks, setTasks] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("tasks")) || [];
+      const saved = JSON.parse(localStorage.getItem("tasks")) || [];
+      return  saved.map(t => ({
+        ...t,
+        priority: t.priority || "medium"
+      }));
+
     } catch {
       return [];
     }
   });
 
   useEffect(() => {
-    try {
       localStorage.setItem("tasks", JSON.stringify(tasks));
-    } catch (e) {
-      console.error(e);
-    }
   }, [tasks]);
 
-  const addTask = (text) => {
+  const addTask = (text, priority) => {
     setTasks((prev) => [
-      { id: Date.now(), text, completed: false },
+      { id: Date.now(), text, completed: false, priority },
       ...prev,
     ]);
   };
@@ -44,5 +45,9 @@ export const useTasks = () => {
     );
   };
 
-  return { tasks, addTask, deleteTask, toggleTask, editTask };
+  const clearCompleted = () => {
+    setTasks(prev => prev.filter(t => !t.completed));
+  };
+
+  return { tasks, addTask, deleteTask, toggleTask, editTask, clearCompleted };
 };
